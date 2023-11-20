@@ -6,7 +6,6 @@ export const Winner = ({winner, setWinner, setBoard}) => {
 
   const handleClick = () => {
     const turn = winner === TURNS.X ? TURNS.O : TURNS.X
-    console.log(turn)
     restartGame(setWinner, setBoard, turn);
   }
 
