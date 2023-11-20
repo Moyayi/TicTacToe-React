@@ -1,4 +1,13 @@
-import { WINNER_COMBO } from "../constant";
+import confetti from "canvas-confetti";
+import { WINNER_COMBO, TURNS } from "../constant";
+
+export const restartGame = (setWinner, setBoard) => { 
+  setWinner(null)
+  setBoard(Array(9).fill(null))
+}
+export const checkEndGame = (newBoard) => {
+  return newBoard.every((square) => square !== null)
+}
 
 export const checkWinner = (boardToCheck) => {
   //Revisar todas las combinaciones para saber ganador
@@ -16,12 +25,7 @@ export const checkWinner = (boardToCheck) => {
   return null
 }
 
-
-export const checkEndGame = (newBoard) => {
-  return newBoard.every((square) => square !== null)
-}
-
-export const updateBoard = (index, setBoard) => {
+export const updateBoard = (index, board, turn, winner, setBoard, setTurn, setWinner) => {
   //no actualizar posición si tiene algo
   if(board[index] || winner) return
 
@@ -38,12 +42,6 @@ export const updateBoard = (index, setBoard) => {
     confetti()
     setWinner(newWinner)
   }else if (checkEndGame(newBoard)){
-    console.log('nadie ha ganado')
     setWinner(false)
   }
-}
-
-export const restartGame = () => { 
-  setWinner(null)
-  setBoard(Array(9).fill(null))
 }

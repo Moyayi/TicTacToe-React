@@ -81,11 +81,6 @@ body {
   border-color: transparent;
 }
 
-.square.is-selected {
-  color: #fff;
-  background: #09f;
-}
-
 .winner {
   position: absolute;
   width: 100vw;
