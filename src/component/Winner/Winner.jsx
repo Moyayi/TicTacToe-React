@@ -1,10 +1,13 @@
 import { Square } from "../Square/Square"
 import { restartGame } from "../../logic/board";
+import { TURNS } from "../../constant";
 
 export const Winner = ({winner, setWinner, setBoard}) => {
 
   const handleClick = () => {
-    restartGame(setWinner, setBoard);
+    const turn = winner === TURNS.X ? TURNS.O : TURNS.X
+    console.log(turn)
+    restartGame(setWinner, setBoard, turn);
   }
 
   return (

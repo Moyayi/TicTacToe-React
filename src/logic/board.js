@@ -1,9 +1,11 @@
 import confetti from "canvas-confetti";
 import { WINNER_COMBO, TURNS } from "../constant";
 
-export const restartGame = (setWinner, setBoard) => { 
+export const restartGame = (setWinner, setBoard, turn) => { 
+  console.log('restarGame function ', turn)
   setWinner(null)
   setBoard(Array(9).fill(null))
+  saveTurnAndBoard({turn})
 }
 export const checkEndGame = (newBoard) => {
   return newBoard.every((square) => square !== null)
@@ -33,10 +35,10 @@ export const updateBoard = (index, board, turn, winner, setBoard, setTurn, setWi
   const newBoard = [...board]
   newBoard[index] = turn
   setBoard(newBoard)
-  
+
   const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
   setTurn(newTurn)
-
+  
   const newWinner= checkWinner(newBoard)
   if(newWinner){
     confetti()
@@ -44,4 +46,18 @@ export const updateBoard = (index, board, turn, winner, setBoard, setTurn, setWi
   }else if (checkEndGame(newBoard)){
     setWinner(false)
   }
+
+  saveTurnAndBoard({newBoard, newTurn})
+}
+
+const saveTurnAndBoard = ({newBoard, newTurn, turn}) => {
+  console.log(newBoard)
+  if(newBoard === undefined){
+    localStorage.removeItem('board')
+    localStorage.setItem('turn', turn)
+  }else{
+    localStorage.setItem('board', JSON.stringify(newBoard))
+    localStorage.setItem('turn', newTurn)
+  }
+
 }

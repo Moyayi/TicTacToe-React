@@ -1,21 +1,36 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import { TURNS } from './constant'
 import { Square } from './component/Square/Square'
-import { restartGame, checkEndGame, checkWinner, updateBoard } from './logic/board'
+import { restartGame, checkEndGame, checkWinner } from './logic/board'
 import { Turns } from './component/Turns/Turns'
 import { Winner } from './component/Winner/Winner'
+import confetti from 'canvas-confetti'
 function App() {
-  const [board, setBoard] = useState(
-    Array(9).fill(null)
-  )
-  const [turn, setTurn] = useState(TURNS.X)
+
+  const [board, setBoard] = useState(() => {
+    return localStorage.getItem('board')
+    ? JSON.parse(localStorage.getItem('board'))
+    : Array(9).fill(null)
+  })
+
+  const [turn, setTurn] = useState(() => {
+    return localStorage.getItem('turn')
+    ? localStorage.getItem('turn')
+    : TURNS.X
+  })
   // null es que no hay ganador, false es que hay un empate
   const [winner, setWinner] = useState(null)
 
   const handleRestartGame = () => {
-    restartGame(setWinner, setBoard)
+    restartGame(setWinner, setBoard, turn)
   }
+
+  //Comprobamos que la partida haya terminado si recarga la página
+  useEffect(() => {
+    setWinner(checkWinner(board))
+  }, [])
+
 
   return (
     <main className='board'>
